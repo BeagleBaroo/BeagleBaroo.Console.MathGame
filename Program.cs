@@ -2,16 +2,10 @@
 namespace BeagleBaroo.Console.MathGame
 {
     using System;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.Text;
 
     class Program
     {
-        static int NumberOfQuestions = 5;
-        static int MinimumValue = 0;
-        static int MaximumValue = 100;
-        static List<string> ValidMenuOptions = new List<string> { "new", "view", "exit" };
+        static List<string> ValidMainMenuOptions = new List<string> { "new", "view", "exit" };
 
         static void Main(string[] args)
         {
@@ -26,15 +20,15 @@ namespace BeagleBaroo.Console.MathGame
             Console.WriteLine("1. Type 'new' and then press enter for a new game");
             Console.WriteLine("2. Type 'view' and then press enter to view a list of previous games");
             Console.WriteLine("3. Type 'exit' and then press enter to close MathGame");
-            string userMenuChoice = Console.ReadLine()?.ToLowerInvariant() ?? "";
 
-            while (ValidMenuOptions.Contains(userMenuChoice) is false)
+            string mainMenuChoice = Console.ReadLine()?.ToLowerInvariant() ?? "";
+            while (ValidMainMenuOptions.Contains(mainMenuChoice) is false)
             {
                 Console.WriteLine("Oops! It looks as though that was not a valid choice, please try again: ");
-                userMenuChoice = Console.ReadLine() ?? "";
+                mainMenuChoice = Console.ReadLine()?.ToLowerInvariant() ?? "";
             }
 
-            switch (userMenuChoice)
+            switch (mainMenuChoice)
             {
                 case "new":
                     games.Add(NewGame());
@@ -54,11 +48,7 @@ namespace BeagleBaroo.Console.MathGame
         static Game NewGame()
         {
             Game newGame = new Game();
-            for (int i = 0; i < NumberOfQuestions; i++)
-            {
-
-            }
-
+            newGame.GenerateQuestions();
             return newGame;
         }
 
@@ -66,26 +56,5 @@ namespace BeagleBaroo.Console.MathGame
         {
 
         }
-
-        private class Game
-        {
-            public Game()
-            {
-                GameQuestions = new List<GameQuestion>();
-            }
-            public List<GameQuestion> GameQuestions { get; set; }
-        }
-
-        private class GameQuestion
-        {
-            public string? GameId { get; set; }
-            public int FirstNumber { get; set; }
-            public int SecondNumber { get; set; }
-            string? OperationType { get; set; }
-            public int GivenAnswer { get; set; }
-            public int ActualAnswer { get; set; }
-            public bool AnsweredCorrectly { get; set; }
-        }
-
     }
 }
