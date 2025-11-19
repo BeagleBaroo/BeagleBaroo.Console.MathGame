@@ -21,7 +21,6 @@ namespace BeagleBaroo.Console.MathGame
 
         public void GenerateQuestions()
         {
-            string operation = string.Empty;
             AbstractQuestion? abstractQuestion = null;
 
             for (int i = 0; i < NumberOfQuestions; i++)

@@ -2,7 +2,6 @@
 namespace BeagleBaroo.Console.MathGame
 {
     using System;
-    using System.Security.AccessControl;
 
     class Program
     {
