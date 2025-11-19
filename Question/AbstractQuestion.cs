@@ -7,7 +7,6 @@ namespace BeagleBaroo.Console.MathGame
             Random = random;
             MinimumValue = minimumValue;
             MaximumValue = maximumValue;
-            GamePlayedAt = DateTime.Now.ToString("ddd MMM yyyy HH:mm");
         }
 
         protected Random Random;
@@ -15,7 +14,6 @@ namespace BeagleBaroo.Console.MathGame
         protected int MaximumValue;
 
         public string? Operand { get; set; }
-        public string GamePlayedAt { get; set; }
         public int FirstNumber { get; set; }
         public int SecondNumber { get; set; }
         public int? GivenAnswer { get; set; }

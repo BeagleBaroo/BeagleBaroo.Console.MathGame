@@ -9,7 +9,7 @@ namespace BeagleBaroo.Console.MathGame
             Operand = "/";
         }
 
-        public override int SetActualAnswer()
+        public override void SetActualAnswer()
         {
             ActualAnswer = FirstNumber / SecondNumber;
         }

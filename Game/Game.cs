@@ -11,10 +11,13 @@ namespace BeagleBaroo.Console.MathGame
         private Random _random;
         public Game()
         {
+            GamePlayedAt = DateTime.Now.ToString("ddd dd MMM yyyy HH:mm");
             GameQuestions = new List<AbstractQuestion>();
             _random = new Random();
         }
+
         public List<AbstractQuestion> GameQuestions { get; set; }
+        public string GamePlayedAt { get; set; }
 
         public void GenerateQuestions()
         {
@@ -70,11 +73,11 @@ namespace BeagleBaroo.Console.MathGame
                 Console.WriteLine($"Your answer was: {GameQuestions[i]?.GivenAnswer?.ToString() ?? "Unanswered"}.");
                 if (GameQuestions[i].AnsweredCorrectly is true)
                 {
-
+                    Console.WriteLine($"Well done, this was the correct answer!");
                 }
                 else
                 {
-
+                    Console.WriteLine($"This was not correct.");
                 }
             }
         }

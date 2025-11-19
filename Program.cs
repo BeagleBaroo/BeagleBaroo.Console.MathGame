@@ -2,6 +2,7 @@
 namespace BeagleBaroo.Console.MathGame
 {
     using System;
+    using System.Security.AccessControl;
 
     class Program
     {
@@ -36,6 +37,7 @@ namespace BeagleBaroo.Console.MathGame
                     break;
                 case "view":
                     HistoryMenu(games);
+                    MainMenu(games);
                     break;
                 case "exit":
                     break;
@@ -49,12 +51,24 @@ namespace BeagleBaroo.Console.MathGame
         {
             Game newGame = new Game();
             newGame.GenerateQuestions();
+            newGame.AnswerQuestions();
             return newGame;
         }
 
         static void HistoryMenu(List<Game> games)
         {
-
+            if (games.Count == 0)
+            {
+                Console.WriteLine("No games have been played yet.");
+            }
+            else
+            {
+                for (int i = 0; i < games.Count; i++)
+                {
+                    int answeredCorrectly = games[i].GameQuestions.Count(aq => aq.AnsweredCorrectly is true);
+                    Console.WriteLine($"{i + 1}. {games[i].GamePlayedAt}: {answeredCorrectly} out of 5 questions answered correctly");
+                }
+            }
         }
     }
 }
