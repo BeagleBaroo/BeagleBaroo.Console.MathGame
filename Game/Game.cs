@@ -62,7 +62,6 @@ namespace BeagleBaroo.MathGame
 
             for (int i = 0; i < NumberOfQuestions; i++)
             {
-                int randomInt = _random.Next(1, 5);
                 switch (operand)
                 {
                     case "+":
