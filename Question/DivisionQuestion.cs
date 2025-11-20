@@ -1,33 +1,32 @@
-namespace BeagleBaroo.Console.MathGame
+namespace BeagleBaroo.MathGame;
+
+public class DivisionQuestion : AbstractQuestion
 {
-    public class DivisionQuestion : AbstractQuestion
+    public DivisionQuestion(Random random, int minimumValue, int maximumValue)
+        : base(random, minimumValue, maximumValue)
     {
-        public DivisionQuestion(Random random, int minimumValue, int maximumValue)
-            : base(random, minimumValue, maximumValue)
+        SetNumbers();
+        Operand = "/";
+    }
+
+    public override void SetActualAnswer()
+    {
+        ActualAnswer = FirstNumber / SecondNumber;
+    }
+
+    public override void SetNumbers()
+    {
+        FirstNumber = Random.Next(MinimumValue, MaximumValue);
+        SecondNumber = Random.Next(MinimumValue, MaximumValue);
+
+        if (SecondNumber is 0)
         {
             SetNumbers();
-            Operand = "/";
         }
 
-        public override void SetActualAnswer()
+        if (FirstNumber % SecondNumber is not 0)
         {
-            ActualAnswer = FirstNumber / SecondNumber;
-        }
-
-        public override void SetNumbers()
-        {
-            FirstNumber = Random.Next(MinimumValue, MaximumValue);
-            SecondNumber = Random.Next(MinimumValue, MaximumValue);
-
-            if (SecondNumber is 0)
-            {
-                SetNumbers();
-            }
-
-            if (FirstNumber % SecondNumber is not 0)
-            {
-                SetNumbers();
-            }
+            SetNumbers();
         }
     }
 }

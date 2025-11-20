@@ -1,13 +1,12 @@
 
-namespace BeagleBaroo.Console.MathGame
+namespace BeagleBaroo.MathGame
 {
-    using System;
-
     public class Game
     {
         const int NumberOfQuestions = 5;
         const int MinimumValue = 0;
         const int MaximumValue = 101;
+        static List<string> ValidOperandOptions = new List<string> { "+", "-", "*", "/" };
         private Random _random;
         public Game()
         {
@@ -19,58 +18,95 @@ namespace BeagleBaroo.Console.MathGame
         public List<AbstractQuestion> GameQuestions { get; set; }
         public string GamePlayedAt { get; set; }
 
-        public void GenerateQuestions()
+        public void Play()
+        {
+            for (int i = 0; i < NumberOfQuestions; i++)
+            {
+                string operand = GetOperandFromUser(i + 1);
+                AbstractQuestion abstractQuestion = GenerateQuestion(operand);
+                if (abstractQuestion is not null)
+                {
+                    AnswerQuestion(abstractQuestion, i + 1);
+                    GameQuestions.Add(abstractQuestion);
+                }
+            }
+
+        }
+
+        public string GetOperandFromUser(int questionIndex)
+        {
+            Console.Clear();
+
+            string? operand;
+            Console.WriteLine($"For question number {questionIndex}, please choose one of the following:");
+            Console.WriteLine($"- Type '+' followed by enter for an addition question");
+            Console.WriteLine($"- Type '-' followed by enter for a subtraction question");
+            Console.WriteLine($"- Type '*' followed by enter for a multiplication question");
+            Console.WriteLine($"- Type '/' followed by enter for a division question");
+            Console.WriteLine();
+            operand = Console.ReadLine() ?? "";
+
+            while (ValidOperandOptions.Contains(operand) is false)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Oops! It looks as though that was not a valid choice, please try again: ");
+                operand = Console.ReadLine() ?? "";
+            }
+
+            return operand;
+        }
+
+        public AbstractQuestion GenerateQuestion(string operand)
         {
             AbstractQuestion? abstractQuestion = null;
 
             for (int i = 0; i < NumberOfQuestions; i++)
             {
                 int randomInt = _random.Next(1, 5);
-                switch (randomInt)
+                switch (operand)
                 {
-                    case 1:
+                    case "+":
                         abstractQuestion = new AdditionQuestion(_random, MinimumValue, MaximumValue);
                         break;
-                    case 2:
+                    case "-":
                         abstractQuestion = new SubtractionQuestion(_random, MinimumValue, MaximumValue);
                         break;
-                    case 3:
+                    case "*":
                         abstractQuestion = new MultiplicationQuestion(_random, MinimumValue, MaximumValue);
                         break;
-                    case 4:
+                    case "/":
                         abstractQuestion = new DivisionQuestion(_random, MinimumValue, MaximumValue);
                         break;
                 }
-
-                if (abstractQuestion is not null)
-                {
-                    GameQuestions.Add(abstractQuestion);
-                }
             }
+
+            return abstractQuestion;
         }
 
-        public void AnswerQuestions()
+        public void AnswerQuestion(AbstractQuestion abstractQuestion, int questionIndex)
         {
-            for (int i = 0; i < GameQuestions.Count; i++)
+            if (abstractQuestion is not null)
             {
-                Console.WriteLine($"Question {i + 1}: What is {GameQuestions[i].GetDescription()}. Please type your answer followed by pressing enter");
+                Console.Clear();
+                Console.WriteLine($"Question {questionIndex}: What is {abstractQuestion.GetDescription()}. Please type your answer followed by pressing enter");
+                Console.WriteLine();
                 string enteredAnswer = Console.ReadLine() ?? "";
 
                 bool validAnswer = int.TryParse(enteredAnswer, out int iEnteredAnswer);
                 if (validAnswer is false)
                 {
-                    GameQuestions[i].AnsweredCorrectly = false;
-                    continue;
+                    abstractQuestion.AnsweredCorrectly = false;
                 }
                 else
                 {
-                    GameQuestions[i].GivenAnswer = iEnteredAnswer;
-                    GameQuestions[i].SetActualAnswer();
-                    GameQuestions[i].SetAnsweredCorrectly();
+                    abstractQuestion.GivenAnswer = iEnteredAnswer;
+                    abstractQuestion.SetActualAnswer();
+                    abstractQuestion.SetAnsweredCorrectly();
                 }
 
-                Console.WriteLine($"Your answer was: {GameQuestions[i]?.GivenAnswer?.ToString() ?? "Unanswered"}.");
-                if (GameQuestions[i].AnsweredCorrectly is true)
+                Console.WriteLine();
+                Console.WriteLine($"Your answer was: {abstractQuestion?.GivenAnswer?.ToString() ?? "Unanswered"}.");
+                if (abstractQuestion.AnsweredCorrectly is true)
                 {
                     Console.WriteLine($"Well done, this was the correct answer!");
                 }
@@ -78,6 +114,17 @@ namespace BeagleBaroo.Console.MathGame
                 {
                     Console.WriteLine($"This was not correct.");
                 }
+                Console.WriteLine();
+
+                if (questionIndex.Equals(NumberOfQuestions))
+                {
+                    Console.WriteLine("Press any key to continue to return to the main menu");
+                }
+                else
+                {
+                    Console.WriteLine("Press any key to continue to the next question");
+                }
+                Console.ReadKey();
             }
         }
     }

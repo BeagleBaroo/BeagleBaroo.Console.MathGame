@@ -1,19 +1,16 @@
+namespace BeagleBaroo.MathGame;
 
-
-namespace BeagleBaroo.Console.MathGame
+public class AdditionQuestion : AbstractQuestion
 {
-    public class AdditionQuestion : AbstractQuestion
+    public AdditionQuestion(Random random, int minimumValue, int maximumValue)
+        : base(random, minimumValue, maximumValue)
     {
-        public AdditionQuestion(Random random, int minimumValue, int maximumValue)
-            : base(random, minimumValue, maximumValue)
-        {
-            SetNumbers();
-            Operand = "+";
-        }
+        SetNumbers();
+        Operand = "+";
+    }
 
-        public override void SetActualAnswer()
-        {
-            ActualAnswer = FirstNumber + SecondNumber;
-        }
+    public override void SetActualAnswer()
+    {
+        ActualAnswer = FirstNumber + SecondNumber;
     }
 }

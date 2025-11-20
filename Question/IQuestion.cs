@@ -1,7 +1,6 @@
-namespace BeagleBaroo.Console.MathGame
+namespace BeagleBaroo.MathGame;
+
+public interface IQuestion
 {
-    public interface IQuestion
-    {
-        public void SetActualAnswer();
-    }
+    public void SetActualAnswer();
 }
